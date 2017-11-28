@@ -1,4 +1,4 @@
-# code
+# Code
 store code challenge problems
 
 | Problem        | Problem link           | Code link |

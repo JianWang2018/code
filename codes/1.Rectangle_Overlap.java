@@ -13,7 +13,6 @@ l1 != r2 and l2 != r2
 code:
 
 mine:
-''' java
 public class Solution {
     /*
      * @param l1: top-left coordinate of first rectangle

@@ -18,3 +18,5 @@ store code challenge problems
 |13.Sliding_Window_Average_from_Data_Stream|      |   [link](https://github.com/wangjian790/code/blob/master/codes/12.Mirror_Numbers.java%20) |
 |14.*System_Longest_File_Path |      |   [link](https://github.com/wangjian790/code/blob/master/codes/14.*System_Longest_File_Path.java) |
 |15.Strings_Serialization|      |   [link](https://github.com/wangjian790/code/blob/master/codes/15.Strings_Serialization.java) |
+
+**remark:** * is the unclear problems

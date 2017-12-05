@@ -1,0 +1,66 @@
+problem:
+Given a list of numbers that may has duplicate numbers, return all possible subsets
+
+ Notice
+
+Each element in a subset must be in non-descending order.
+The ordering between two subsets is free.
+The solution set must not contain duplicate subsets.
+Have you met this question in a real interview? Yes
+Example
+If S = [1,2,2], a solution is:
+
+[
+  [2],
+  [1],
+  [1,2,2],
+  [2,2],
+  [1,2],
+  []
+]
+`````````````````````````
+key: i != pos && nums[i]==nums[i-1]
+
+mine :
+public class Solution {
+    /*
+     * @param nums: A set of numbers.
+     * @return: A list of lists. All valid subsets.
+     */
+    public List<List<Integer>> subsetsWithDup(int[] nums) {
+        // write your code here
+        List<List<Integer>> res= new ArrayList<>();
+        if (nums==null) return res; 
+        
+        if (nums.length ==0 ) {
+            
+            res.add(new ArrayList<Integer>());
+            return res;
+        }
+        
+        Arrays.sort(nums);
+        
+        List<Integer> subset=new ArrayList<Integer>(); 
+        helper(res, nums , subset, 0);
+        return res; 
+    }
+    
+    private void helper (List<List<Integer>> res, int [] nums, List<Integer>subset,
+    int pos){
+        // deep copy
+        res.add(new ArrayList(subset)); 
+        for ( int i = pos ; i<nums.length ; i++){
+            // not the first item, equal to the previous item
+            if(i!=pos && nums[i]==nums[i-1]){
+                continue;
+            }
+            
+            subset.add(nums[i]);
+            helper(res,nums,subset,i+1);
+            // note that the list is using size() not length()
+            subset.remove(subset.size()-1);
+        }
+    }
+}
+9 chapter:
+

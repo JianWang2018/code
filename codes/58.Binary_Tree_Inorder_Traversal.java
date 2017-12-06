@@ -39,6 +39,35 @@ public class Solution {
     return result;
 }
 }
+
+// noo recursion
+public class Solution {
+    /*
+     * @param root: A Tree
+     * @return: Preorder in ArrayList which contains node values.
+     */
+public ArrayList<Integer> inorderTraversal(TreeNode root) {
+    ArrayList<Integer> result = new ArrayList<Integer>();
+    if (root ==null) return result;
+
+    Stack<TreeNode> stack = new Stack <TreeNode> ();
+    TreeNode cur = root;
+
+    while (cur !=null || !stack.empty()) {
+        while (cur!=null ){
+            stack.push(cur);
+            cur= cur.left;
+        }
+        cur = stack.pop();
+        result.add(cur.val);
+        cur=cur.right;
+        }
+
+
+    return result;
+
+}
+}
 // 9 chapter: use the non recursion method
 public class Solution {
     /**

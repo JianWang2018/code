@@ -17,6 +17,19 @@ store code challenge problems
 |12.Mirror_Numbers.java |      |   [link](https://github.com/wangjian790/code/blob/master/codes/12.Mirror_Numbers.java%20) |
 |13.Sliding_Window_Average_from_Data_Stream|      |   [link](https://github.com/wangjian790/code/blob/master/codes/12.Mirror_Numbers.java%20) |
 |14.*System_Longest_File_Path |      |   [link](https://github.com/wangjian790/code/blob/master/codes/14.*System_Longest_File_Path.java) |
-|15.Strings_Serialization|      |   [link](https://github.com/wangjian790/code/blob/master/codes/15.Strings_Serialization.java) |
+|16.Identify_Celebrity.java|   |   [link](https://github.com/wangjian790/code/blob/master/codes/16.Identify_Celebrity.java) |
+|17.Edit_Distance_II.java|  |   [link](https://github.com/wangjian790/code/blob/master/codes/17.Edit_Distance_II.java) |
+|18.Roman_to_Integer.java|  |   [link](https://github.com/wangjian790/code/blob/master/codes/18.Roman_to_Integer.java) |
+|19.Integer_to_Roman.java|  |   [link](https://github.com/wangjian790/code/blob/master/codes/19.Integer_to_Roman.java) 
+|20.First_Position_Unique_Character.java||   [link](https://github.com/wangjian790/code/blob/master/codes/20.%20First_Position_Unique_Character.java) |
+|21.*Substring_Anagrams.java|  |   [link](https://github.com/wangjian790/code/blob/master/codes/21.*Substring_Anagrams.java) |
+|21.Substring_Anagrams.java|  |   [link](https://github.com/wangjian790/code/blob/master/codes/21.Substring_Anagrams.java) |
+|22.Valid_Parantheses.java|  |   [link](https://github.com/wangjian790/code/blob/master/codes/22.Valid_Parantheses.java) |
+|23.Merge_Intervals.java|  |   [link](https://github.com/wangjian790/code/blob/master/codes/23.Merge_Intervals.java) |
+|24.Insert_Interval.java|  |   [link](https://github.com/wangjian790/code/blob/master/codes/24.Insert_Interval.java) |
+|25.Word_abbreviation_set.java|  |   [link](https://github.com/wangjian790/code/blob/master/codes/25.Word_abbreviation_set.java) |
+
+
+
 
 **remark:** * is the unclear problems

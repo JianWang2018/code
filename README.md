@@ -1,6 +1,7 @@
 # Code
 store code challenge problems
 
+
 | Problem        | Problem link           | Code link |
 | ------------- |:-------------| -----|
 |1.Rectangle Overlap      | | [link](https://github.com/wangjian790/code/blob/master/codes/1.Rectangle_Overlap.java) |
@@ -28,8 +29,5 @@ store code challenge problems
 |23.Merge_Intervals.java|  |   [link](https://github.com/wangjian790/code/blob/master/codes/23.Merge_Intervals.java) |
 |24.Insert_Interval.java|  |   [link](https://github.com/wangjian790/code/blob/master/codes/24.Insert_Interval.java) |
 |25.Word_abbreviation_set.java|  |   [link](https://github.com/wangjian790/code/blob/master/codes/25.Word_abbreviation_set.java) |
-
-
-
 
 **remark:** * is the unclear problems

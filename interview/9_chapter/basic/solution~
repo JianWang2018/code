@@ -1,0 +1,1195 @@
+1. First posiiton of a target
+class Solution {
+    /**
+     * @param nums: The integer array.
+     * @param target: Target to find.
+     * @return: The first position of target. Position starts from 0.
+     */
+    public int binarySearch(int[] nums, int target) {
+        if (nums == null || nums.length == 0) {
+            return -1;
+        }
+        
+        int start = 0, end = nums.length - 1;
+        while (start + 1 < end) {
+            int mid = start + (end - start) / 2;
+            if (nums[mid] == target) {
+                end = mid;// note that here is not return mid, since it may have duplicate number
+            } else if (nums[mid] < target) {
+                start = mid;
+                // or start = mid + 1
+            } else {
+                end = mid;
+                // or end = mid - 1
+            }
+        }
+        
+        if (nums[start] == target) {
+            return start;
+        }
+        if (nums[end] == target) {
+            return end;
+        }
+        return -1;
+    }
+}
+
+
+// version 2: without jiuzhang template
+class Solution {
+    /**
+     * @param nums: The integer array.
+     * @param target: Target to find.
+     * @return: The first position of target. Position starts from 0.
+     */
+    public int binarySearch(int[] nums, int target) {
+        if (nums == null || nums.length == 0) {
+            return -1;
+        }
+        
+        int start = 0, end = nums.length - 1;
+        while (start < end) {
+            int mid = start + (end - start) / 2;
+            if (nums[mid] == target) {
+                end = mid;
+            } else if (nums[mid] < target) {
+                start = mid + 1;
+            } else {
+                end = mid - 1;
+            }
+        }
+        
+        if (nums[start] == target) {
+            return start;
+        }
+        
+        return -1;
+    }
+}
+
+2.Last position of a target
+public class Solution {
+    /**
+     * @param A an integer array sorted in ascending order
+     * @param target an integer
+     * @return an integer
+     */
+    public int lastPosition(int[] A, int target) {
+    	if (A == null || A.length == 0) {
+    		return -1;
+    	}
+    	int start = 0;
+    	int end = A.length - 1;
+    	int mid;
+
+    	while(start + 1 < end) {
+    		mid = start + (end - start)/2;
+    		if (A[mid] == target) {
+    			if (mid + 1 < A.length && A[mid + 1] == target) {
+    				start = mid;// note that here is not return mid or end = mid, since we need the last position
+    			} else {
+    				return mid;
+    			}
+    		} else if (A[mid] < target) {
+    			start = mid;
+    		} else {
+    			end = mid;
+    		}
+    	}
+    	
+    	if (A[end] == target) {// note: first end then first
+    		return end;
+    	} else if (A[start] == target) {
+    		return start;
+    	}
+    	
+    	return -1;
+    }
+}
+
+3. Classical binary search 
+public class Solution {
+    /**
+     * @param A an integer array sorted in ascending order
+     * @param target an integer
+     * @return an integer
+     */
+    public int findPosition(int[] A, int target) {
+        if (A == null || A.length == 0) {
+            return -1;
+        }
+        int start = 0;
+        int end = A.length - 1;
+        int mid;
+        while(start + 1 < end) {
+            mid = start + (end - start) / 2;
+            if (target == A[mid]) {
+                return mid;
+            } else if (target > A[mid]) {
+                start = mid;
+            } else {
+                end = mid;
+            }
+        }//end while
+        if (A[start] == target || A[end] == target) {
+            return A[start] == target ? start : end;
+        }
+        return -1;
+    }
+}
+
+4.Search a 2D Matrix
+// Binary Search Once
+public class Solution {
+    /**
+     * @param matrix, a list of lists of integers
+     * @param target, an integer
+     * @return a boolean, indicate whether matrix contains target
+     */
+    public boolean searchMatrix(int[][] matrix, int target) {
+        // write your code here
+        if(matrix == null || matrix.length == 0){
+            return false;
+        }
+        
+        if(matrix[0] == null || matrix[0].length == 0){// since it is two d, so need to check the first value
+            return false;
+        }
+        
+        int row = matrix.length;
+        int column = matrix[0].length;
+        
+        int start = 0, end = row * column - 1;
+        while(start <= end){
+            int mid = start + (end - start) / 2;
+            int number = matrix[mid / column][mid % column];// change index of one d array to index of 2 d array
+            if(number == target){
+                return true;
+            }else if(number > target){
+                end = mid - 1;
+            }else{
+                start = mid + 1;
+            }
+        }
+        
+        return false;
+        
+    }
+}
+
+// Binary Search Twice
+public class Solution {
+    public boolean searchMatrix(int[][] matrix, int target) {
+        if (matrix == null || matrix.length == 0) {
+            return false;
+        }
+        if (matrix[0] == null || matrix[0].length == 0) {
+            return false;
+        }
+        
+        int row = matrix.length;
+        int column = matrix[0].length;
+        
+        // find the row index, the last number <= target 
+        int start = 0, end = row - 1;
+        while (start + 1 < end) {
+            int mid = start + (end - start) / 2;
+            if (matrix[mid][0] == target) {
+                return true;
+            } else if (matrix[mid][0] < target) {
+                start = mid;
+            } else {
+                end = mid;
+            }
+        }
+        if (matrix[end][0] <= target) {
+            row = end;
+        } else if (matrix[start][0] <= target) {
+            row = start;
+        } else {
+            return false;
+        }
+        
+        // find the column index, the number equal to target
+        start = 0;
+        end = column - 1;
+        while (start + 1 < end) {
+            int mid = start + (end - start) / 2;
+            if (matrix[row][mid] == target) {
+                return true;
+            } else if (matrix[row][mid] < target) {
+                start = mid;
+            } else {
+                end = mid;
+            }
+        }
+        if (matrix[row][start] == target) {
+            return true;
+        } else if (matrix[row][end] == target) {
+            return true;
+        }
+        return false;
+    }
+}
+
+5.Search insert position
+public class Solution {
+    public int searchInsert(int[] A, int target) {
+        if (A == null || A.length == 0) {
+            return 0;
+        }
+        int start = 0, end = A.length - 1;
+        
+        while (start + 1 < end) {
+            int mid = start + (end - start) / 2;
+            if (A[mid] == target) {
+                return mid;
+            } else if (A[mid] < target) {
+                start = mid;
+            } else {
+                end = mid;
+            }
+        }
+         // if target less or equal to A[start] return start
+        // if target > end, insert after end, so end+1;
+        //else between start and end, return end
+
+        if (A[start] >= target) {
+            return start;
+        } else if (A[end] >= target) {
+            return end;
+        } else {
+            return end + 1;
+        }
+    }
+}
+
+// version 2: find the last position < target, return +1， 要特判一下target小于所有数组里面的元素
+
+public class Solution {
+    public int searchInsert(int[] A, int target) {
+        if (A == null || A.length == 0) {
+            return 0;
+        }
+        int start = 0;
+        int end = A.length - 1;
+        int mid;
+        
+        if (target < A[0]) {
+            return 0;
+        }
+        // find the last number less than target
+        while (start + 1 < end) {
+            mid = start + (end - start) / 2;
+            if (A[mid] == target) {
+                return mid;
+            } else if (A[mid] < target) {
+                start = mid;
+            } else {
+                end = mid;
+            }
+        }
+        
+        if (A[end] == target) {
+            return end;
+        }
+        if (A[end] < target) {
+            return end + 1;
+        }
+        if (A[start] == target) {
+            return start;
+        }
+        return start + 1;
+    }
+}
+
+6. Search in big sorted array 
+// double increase until bigger than target
+public class Solution {
+    /**
+     * @param reader: An instance of ArrayReader.
+     * @param target: An integer
+     * @return : An integer which is the index of the target number
+     */
+    public int searchBigSortedArray(ArrayReader reader, int target) {
+        int index = 1;
+        while (reader.get(index - 1) < target) {
+            index = index * 2;
+        }
+        int start = 0, end = index - 1;
+        while (start + 1 < end) {
+            int mid = start + (end - start) / 2;
+            if (reader.get(mid) < target) {
+                start = mid;
+            } else {
+                end = mid;
+            }
+        }
+        
+        if (reader.get(start) == target) {
+            return start;
+        }
+        
+        if (reader.get(end) == target) {
+            return end;
+        }
+        return -1;
+    }
+}
+
+7. Find Minimum in Rotated Sorted Array 
+public class Solution {
+    /**
+     * @param nums: a rotated sorted array
+     * @return: the minimum number in the array
+     */
+    public int findMin(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return -1;
+        }
+        
+        int start = 0, end = nums.length - 1;
+        int target = nums[nums.length - 1];
+        
+        // find the first element <= target
+
+        while (start + 1 < end) {
+            int mid = start + (end - start) / 2;
+            if (nums[mid] <= target) {
+                end = mid;
+            } else {
+                start = mid;
+            }
+        }
+        if (nums[start] <= target) {
+            return nums[start];
+        } else {
+            return nums[end];
+        }
+    }
+}
+
+8. Search in rotated array
+public class Solution {
+    public int search(int[] A, int target) {
+        if (A == null || A.length == 0) {
+            return -1;
+        }
+
+        int start = 0;
+        int end = A.length - 1;
+        int mid;
+        
+        while (start + 1 < end) {
+            mid = start + (end - start) / 2;
+            if (A[mid] == target) {
+                return mid;
+            }
+            if (A[start] < A[mid]) {
+                // situation 1, red line
+                if (A[start] <= target && target <= A[mid]) {
+                    end = mid;
+                } else {
+                    start = mid;
+                }
+            } else {
+                // situation 2, green line
+                if (A[mid] <= target && target <= A[end]) {
+                    start = mid;
+                } else {
+                    end = mid;
+                }
+            }
+        } // while
+        
+        if (A[start] == target) {
+            return start;
+        }
+        if (A[end] == target) {
+            return end;
+        }
+        return -1;
+    }
+}
+
+9.sqrtx
+class Solution {
+    /**
+     * @param x: An integer
+     * @return: The sqrt of x
+     */
+    public int sqrt(int x) {
+        // find the last number which square of it <= x
+        long start = 1, end = x;
+        while (start + 1 < end) {
+            long mid = start + (end - start) / 2;
+            if (mid * mid <= x) {
+                start = mid;
+            } else {
+                end = mid;
+            }
+        }
+        
+        if (end * end <= x) {
+            return (int) end;
+        }
+        return (int) start;
+    }
+}
+
+10. First bad verison 
+class Solution {
+    /**
+     * @param n: An integers.
+     * @return: An integer which is the first bad version.
+     */
+    public int findFirstBadVersion(int n) {
+        int start = 1, end = n;
+        while (start + 1 < end) {
+            int mid = start + (end - start) / 2;
+            if (SVNRepo.isBadVersion(mid)) {
+                end = mid;
+            } else {
+                start = mid;
+            }
+        }
+            
+        if (SVNRepo.isBadVersion(start)) {
+            return start;
+        }
+        return end;
+    }
+}
+
+11. Wood cut 
+public class Solution {
+    /** 
+     *@param L: Given n pieces of wood with length L[i]
+     *@param k: An integer
+     *return: The maximum length of the small pieces.
+     */
+    public int woodCut(int[] L, int k) {
+	// note that one wood can be cutted into several pieces, so l.length can be less than K
+        int max = 0;
+	// find the maximum of wood, used as end
+        for (int i = 0; i < L.length; i++) {
+            max = Math.max(max, L[i]);
+        }
+        
+        // find the largest length that can cut more than k pieces of wood.
+        // note that start should be from 0, or add a return 0 in the last;
+        int start = 0, end = max;
+        while (start + 1 < end) {
+            int mid = start + (end - start) / 2;
+            if (count(L, mid) >= k) {
+                start = mid;
+            } else {
+                end = mid;
+            }
+        }
+        
+        if (count(L, end) >= k) {
+            return end;
+        }
+        if (count(L, start) >= k) {
+            return start;
+        }
+        return 0;
+    }
+    // build a count function that find the number of cuts with length a
+    private int count(int[] L, int length) {
+        int sum = 0;
+        for (int i = 0; i < L.length; i++) {
+            sum += L[i] / length;
+        }
+        return sum;
+    }
+}
+
+12. Find peak
+class Solution {
+    /**
+     * @param A: An integers array.
+     * @return: return any of peek positions.
+     */
+    public int findPeak(int[] A) {
+        // write your code here
+        int start = 1, end = A.length-2; //  the answer should from the second to the n-1 elements; can avoid index overflow.
+        while(start + 1 <  end) {
+            int mid = (start + end) / 2;
+            if(A[mid] < A[mid - 1]) {
+                end = mid;
+            } else if(A[mid] < A[mid + 1]) {
+                start = mid;
+            } else {
+                end = mid;
+            }
+        }
+        if(A[start] < A[end]) {
+            return end;
+        } else { 
+            return start;
+        }
+    }
+}
+
+13. Search for a range
+
+public class Solution {
+    public int[] searchRange(int[] A, int target) {
+        if (A.length == 0) {
+            return new int[]{-1, -1};
+        }
+        
+        int start, end, mid;
+        int[] bound = new int[2]; 
+        
+        // search for left bound
+        start = 0; 
+        end = A.length - 1;
+        while (start + 1 < end) {
+            mid = start + (end - start) / 2;
+            if (A[mid] == target) {
+                end = mid;
+            } else if (A[mid] < target) {
+                start = mid;
+            } else {
+                end = mid;
+            }
+        }
+        if (A[start] == target) {
+            bound[0] = start;
+        } else if (A[end] == target) {
+            bound[0] = end;
+        } else {
+            bound[0] = bound[1] = -1;
+            return bound;
+        }
+        
+        // search for right bound
+        start = 0;
+        end = A.length - 1;
+        while (start + 1 < end) {
+            mid = start + (end - start) / 2;
+            if (A[mid] == target) {
+                start = mid;
+            } else if (A[mid] < target) {
+                start = mid;
+            } else {
+                end = mid;
+            }
+        }
+        if (A[end] == target) {
+            bound[1] = end;
+        } else if (A[start] == target) {public class Solution {
+    /**
+     * @param nums: The rotated sorted array
+     * @return: The recovered sorted array
+     */
+    private void reverse(ArrayList<Integer> nums, int start, int end) {
+        for (int i = start, j = end; i < j; i++, j--) {
+            int temp = nums.get(i);
+            nums.set(i, nums.get(j));
+            nums.set(j, temp);
+        }
+    }
+
+    public void recoverRotatedSortedArray(ArrayList<Integer> nums) {
+        for (int index = 0; index < nums.size() - 1; index++) {
+            if (nums.get(index) > nums.get(index + 1)) {
+                reverse(nums, 0, index);
+                reverse(nums, index + 1, nums.size() - 1);
+                reverse(nums, 0, nums.size() - 1);
+                return;
+            }
+        }
+    }
+}
+
+            bound[1] = start;
+        } else {
+            bound[0] = bound[1] = -1;
+            return bound;
+        }
+        
+        return bound;
+    }
+}
+
+
+14. recovered the rotated array
+public class Solution {
+    /*
+     * @param nums: An integer array
+     * @return: nothing
+     */
+    public void recoverRotatedSortedArray(List<Integer> nums) {
+        // write your code here
+        // find the first tiem that is bigge than the next item
+        int index=0;
+        // note that do not use nums.length should use nums.size()
+        for (int i =0;i<nums.size()-1;i++){
+            if(nums.get(i)>nums.get(i+1)) break;
+            index++;
+        }
+        if(index==nums.size()-1) return; 
+        else {
+            reverseArray(nums,0,index);
+            reverseArray(nums,index+1,nums.size()-1);
+            reverseArray(nums,0,nums.size()-1);
+            return;
+    }
+    
+    }
+    public void reverseArray(List<Integer>nums, int i,int j){
+        //reverse the nums from index i to index j
+        if (i<0 || j> nums.size()-1){
+            System.out.println("the index is out of range");
+            return;
+        }
+        else{// use set and get to swap the item in list
+            int temp;
+            while (i<j){
+            temp=nums.get(i);
+            nums.set(i,nums.get(j));
+            nums.set(j,temp);
+            i++;
+            j--;
+            }
+        }
+    }
+}
+
+// chapter 9 solution 
+public class Solution {
+    /**
+     * @param nums: The rotated sorted array
+     * @return: The recovered sorted array
+     */
+    private void reverse(ArrayList<Integer> nums, int start, int end) {
+        for (int i = start, j = end; i < j; i++, j--) {
+            int temp = nums.get(i);
+            nums.set(i, nums.get(j));
+            nums.set(j, temp);
+        }
+    }
+
+    public void recoverRotatedSortedArray(ArrayList<Integer> nums) {
+        for (int index = 0; index < nums.size() - 1; index++) {
+            if (nums.get(index) > nums.get(index + 1)) {
+                reverse(nums, 0, index);
+                reverse(nums, index + 1, nums.size() - 1);
+                reverse(nums, 0, nums.size() - 1);
+                return;
+            }
+        }
+    }
+}
+
+15. Rotate String 
+public class Solution {
+    /*
+     * @param str: An array of char
+     * @param offset: An integer
+     * @return: nothing
+     */
+    public void rotateString(char[] str, int offset) {
+        // write your code here
+        // should test the null value
+        if (str.length==0 || str==null) return;
+        // note that the offset may be larger than the length od str
+        offset=offset%str.length;
+        //reverse three times
+        reverseArray(str,0,str.length-offset-1);
+        reverseArray(str, str.length-offset,str.length-1);
+        reverseArray(str,0,str.length-1);
+        return;
+    }
+    private void reverseArray(char[]str , int i, int j){
+        // rotate a array from index i to index j
+        if(i<0 || j >str.length-1) {
+            System.out.println (" index should be in the range");
+            return;
+        }
+        else {
+            char temp;
+            while (i <j){
+                temp=str[i];
+                str[i]=str[j];
+                str[j]=temp;
+                i++;
+                j--;
+            }
+                
+                
+            
+        }
+        return;
+        
+    }
+}
+// chapter 9 solution 
+
+public class Solution {
+    /**
+     * @param str: an array of char
+     * @param offset: an integer
+     * @return: nothing
+     */
+    public void rotateString(char[] str, int offset) {
+        // write your code here
+        if (str == null || str.length == 0)
+            return;
+            
+        offset = offset % str.length;
+        reverse(str, 0, str.length - offset - 1);
+        reverse(str, str.length - offset, str.length - 1);
+        reverse(str, 0, str.length - 1);
+    }
+    
+    private void reverse(char[] str, int start, int end) {
+        for (int i = start, j = end; i < j; i++, j--) {
+            char temp = str[i];
+            str[i] = str[j];
+            str[j] = temp;
+        }
+    }
+}
+
+16. Binary Tree Level Order Traversal 
+
+public class Solution {
+    /*
+     * @param root: A Tree
+     * @return: Level order a list of lists of integer
+     */
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        // write your code here
+        // should use 2 -d array list
+        List<List<Integer>> result= new ArrayList<List<Integer>>();
+        // deal with the null case 
+        if (root==null)
+        return result;
+        // build a queue
+        Queue<TreeNode> queue = new LinkedList<TreeNode>();
+        queue.offer(root);
+        
+        while (!queue.isEmpty()){
+            List<Integer> level =new ArrayList<Integer>();
+            int size = queue.size();
+            // note that should define the size first, since the size of queue is changing during 
+            // the for loop; 
+            for (int i =0;i<size;i++){
+                TreeNode head= queue.poll();
+                level.add(head.val);
+                if (head.left!=null){
+                    queue.offer(head.left);
+                }
+                
+                if(head.right!=null){
+                    queue.offer(head.right);
+                }
+                
+                
+            }
+            result.add(level);
+        
+        }
+        return result;
+        
+    }
+}
+
+chapter 9 solution 
+// version 1: BFS
+public class Solution {
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        List result = new ArrayList();
+
+        if (root == null) {
+            return result;
+        }
+
+        Queue<TreeNode> queue = new LinkedList<TreeNode>();
+        queue.offer(root);
+
+        while (!queue.isEmpty()) {
+            ArrayList<Integer> level = new ArrayList<Integer>();
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                TreeNode head = queue.poll();
+                level.add(head.val);
+                if (head.left != null) {
+                    queue.offer(head.left);
+                }
+                if (head.right != null) {
+                    queue.offer(head.right);
+                }
+            }
+            result.add(level);
+        }
+
+        return result;
+    }
+}
+
+
+// version 2:  DFS
+public class Solution {
+    /**
+     * @param root: The root of binary tree.
+     * @return: Level order a list of lists of integer
+     */
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        List<List<Integer>> results = new ArrayList<List<Integer>>();
+        
+        if (root == null) {
+            return results;
+        }
+        
+        int maxLevel = 0;
+        while (true) {
+            List<Integer> level = new ArrayList<Integer>();
+            dfs(root, level, 0, maxLevel);
+            if (level.size() == 0) {
+                break;
+            }
+            
+            results.add(level);
+            maxLevel++;
+        }
+        
+        return results;
+    }
+    
+    private void dfs(TreeNode root,
+                     List<Integer> level,
+                     int curtLevel,
+                     int maxLevel) {
+        if (root == null || curtLevel > maxLevel) {
+            return;
+        }
+        
+        if (curtLevel == maxLevel) {
+            level.add(root.val);
+            return;
+        }
+        
+        dfs(root.left, level, curtLevel + 1, maxLevel);
+        dfs(root.right, level, curtLevel + 1, maxLevel);
+    }
+}
+
+
+16. Binary Tree Level Order Traversal II
+
+public class Solution {
+    /**
+     * @param root: The root of binary tree.
+     * @return: buttom-up level order a list of lists of integer
+     */
+    public List<List<Integer>> levelOrderBottom(TreeNode root) {
+        List<List<Integer>> result = new ArrayList<>();
+        if (root == null) {
+            return result;
+        }
+        Queue<TreeNode> queue = new LinkedList<TreeNode>();
+        queue.offer(root);
+        
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            List<Integer> level = new ArrayList<>();
+            for (int i = 0; i < size; i++) {
+                TreeNode head = queue.poll();
+                level.add(head.val);
+                if (head.left != null) {
+                    queue.offer(head.left);
+                }
+                if (head.right != null) {
+                    queue.offer(head.right);
+                }
+            }
+            result.add(level);
+        }
+        // note that we can just reverse the elvel order result        
+        Collections.reverse(result);
+        return result;
+    }
+}
+
+17.Binary Tree Zigzag Level Order Traversal
+
+18. Binary Tree Preorder Traversal
+chapter 9 solution
+//Version 0: Non-Recursion (Recommend)
+/**
+ * Definition for binary tree
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public List<Integer> preorderTraversal(TreeNode root) {
+        Stack<TreeNode> stack = new Stack<TreeNode>();
+        List<Integer> preorder = new ArrayList<Integer>();
+        
+        if (root == null) {
+            return preorder;
+        }
+        
+        stack.push(root);
+        while (!stack.empty()) {
+            TreeNode node = stack.pop();
+            preorder.add(node.val);
+            if (node.right != null) {
+                stack.push(node.right);
+            }
+            if (node.left != null) {
+                stack.push(node.left);
+            }
+        }
+        
+        return preorder;
+    }
+}
+
+//Version 1: Traverse
+public class Solution {
+    public ArrayList<Integer> preorderTraversal(TreeNode root) {
+        ArrayList<Integer> result = new ArrayList<Integer>();
+        traverse(root, result);
+        return result;
+    }
+    // 把root为跟的preorder加入result里面
+    private void traverse(TreeNode root, ArrayList<Integer> result) {
+        if (root == null) {
+            return;
+        }
+
+        result.add(root.val);
+        traverse(root.left, result);
+        traverse(root.right, result);
+    }
+}
+
+//Version 2: Divide & Conquer
+public class Solution {
+    public ArrayList<Integer> preorderTraversal(TreeNode root) {
+        ArrayList<Integer> result = new ArrayList<Integer>();
+        // null or leaf
+        if (root == null) {
+            return result;
+        }
+
+        // Divide
+        ArrayList<Integer> left = preorderTraversal(root.left);
+        ArrayList<Integer> right = preorderTraversal(root.right);
+
+        // Conquer
+        result.add(root.val);
+        // note that addAll add all the value to the list
+        result.addAll(left);
+        result.addAll(right);
+        return result;
+    }
+}
+
+19. binary-tree-inorder-traversal(*)
+//chapter 9 solution 
+public class Solution {
+    /**
+     * @param root: The root of binary tree.
+     * @return: Inorder in ArrayList which contains node values.
+     */
+    public ArrayList<Integer> inorderTraversal(TreeNode root) {
+        Stack<TreeNode> stack = new Stack<TreeNode>();
+        ArrayList<Integer> result = new ArrayList<Integer>();
+        TreeNode curt = root;
+        while (curt != null || !stack.empty()) {
+            while (curt != null) {
+                stack.add(curt);
+                curt = curt.left;
+            }
+            curt = stack.pop();
+            result.add(curt.val);
+            curt = curt.right;
+        }
+        return result;
+    }
+}
+
+20. binary-tree-postorder-traversa(*)
+// chapter 9 solution
+//Recursive
+public ArrayList<Integer> postorderTraversal(TreeNode root) {
+    ArrayList<Integer> result = new ArrayList<Integer>();
+
+    if (root == null) {
+        return result;
+    }
+
+    result.addAll(postorderTraversal(root.left));
+    result.addAll(postorderTraversal(root.right));
+    result.add(root.val);
+
+    return result;   
+}
+
+//Iterative
+public ArrayList<Integer> postorderTraversal(TreeNode root) {
+    ArrayList<Integer> result = new ArrayList<Integer>();
+    Stack<TreeNode> stack = new Stack<TreeNode>();
+    TreeNode prev = null; // previously traversed node
+    TreeNode curr = root;
+
+    if (root == null) {
+        return result;
+    }
+
+    stack.push(root);
+    while (!stack.empty()) {
+        curr = stack.peek();
+        if (prev == null || prev.left == curr || prev.right == curr) { // traverse down the tree
+            if (curr.left != null) {
+                stack.push(curr.left);
+            } else if (curr.right != null) {
+                stack.push(curr.right);
+            }
+        } else if (curr.left == prev) { // traverse up the tree from the left
+            if (curr.right != null) {
+                stack.push(curr.right);
+            }
+        } else { // traverse up the tree from the right
+            result.add(curr.val);
+            stack.pop();
+        }
+        prev = curr;
+    }
+
+    return result;
+}
+
+21. Maximum Depth of Binary Tree(*traverse)
+chapter 9 solution 
+// Version 1: Divide Conquer
+public class Solution {
+    public int maxDepth(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+
+        int left = maxDepth(root.left);
+        int right = maxDepth(root.right);
+        return Math.max(left, right) + 1;
+    }
+}
+
+// version 2: Traverse
+/**
+ * Definition of TreeNode:
+ * public class TreeNode {
+ *     public int val;
+ *     public TreeNode left, right;
+ *     public TreeNode(int val) {
+ *         this.val = val;
+ *         this.left = this.right = null;
+ *     }
+ * }
+ */
+public class Solution {
+    /**
+     * @param root: The root of binary tree.
+     * @return: An integer.
+     */
+    private int depth;
+    
+    public int maxDepth(TreeNode root) {
+        depth = 0;
+        helper(root, 1);
+        
+        return depth;
+    }
+    
+    private void helper(TreeNode node, int curtDepth) {
+        if (node == null) {
+            return;
+        }
+        
+        if (curtDepth > depth) {
+            depth = curtDepth;
+        }
+        
+        helper(node.left, curtDepth + 1);
+        helper(node.right, curtDepth + 1);
+    }
+}
+
+22. Minimum depth of binary tree(*traverse)
+
+// recursion
+public class Solution {
+    /*
+     * @param root: The root of binary tree
+     * @return: An integer
+     */
+    public int minDepth(TreeNode root) {
+        // write your code here
+        if (root==null) return 0;
+        if (root.left==null && root.right==null) return 1;
+        if (root.left==null) return minDepth(root.right)+1;
+        if (root.right==null) return minDepth(root.left)+1;
+        int left, right;
+        left=minDepth(root.left);
+        right=minDepth(root.right);
+        //note the min is not capital case
+        return Math.min(left,right)+1;
+    }
+}
+//chapter 9 solution
+public class Solution {
+    public int minDepth(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        return getMin(root);
+    }
+
+    public int getMin(TreeNode root){
+        if (root == null) {
+            return Integer.MAX_VALUE;
+        }
+
+        if (root.left == null && root.right == null) {
+            return 1;
+        }
+
+        return Math.min(getMin(root.left), getMin(root.right)) + 1;
+    }
+}
+
+23.balanced binary tree
+
+// chapter 9 solution 
+public class Solution {
+    public boolean isBalanced(TreeNode root) {
+        return maxDepth(root) != -1;
+    }
+
+    private int maxDepth(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+
+        int left = maxDepth(root.left);
+        int right = maxDepth(root.right);
+        // note if any -1 then all -1, else calculate the maxdepth of left and right
+        if (left == -1 || right == -1 || Math.abs(left-right) > 1) {
+            return -1;
+        }
+        return Math.max(left, right) + 1;
+    }
+}
+

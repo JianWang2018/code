@@ -1,0 +1,41 @@
+1,Strings Homomorphism,L,1 3
+1,Decode Ways,F,4 5 7
+1,Rectangle Overlap,A,1 4
+1,Check Word Abbreviation,G,2 5 7
+1,Words Abbreviation,G,1 2 3 7
+2,Sliding Window Average from Data Stream,G,3 5
+2,Mirror Numbers,G,1 2
+2,Edit Distance II,F,1 4 5
+2,Read Characters From File - multiple calls,G F,3 5 7
+2,Strings Serialization,G,4
+2,System Longest File Path,G,1 2 5 7
+2,Roman to Integer,F,1 2
+2,Integer to Roman,,1 3
+2,Identify Celebrity,L F,4 6
+3,Missing Interval,G,2 5
+3,Merge intervals,L G F,2 3 7
+3,Insert interval,L G F,2 3 7
+3,First Position Unique Character,A,3
+3,Substring Anagrams,A,1 3 4
+3,Word Abbreviation Set,G,1 2 3 5 7
+3,Longest Consecutive Sequence,G F,3 4 6
+3,Valid Parentheses,G,3
+3,Load Balancer,G A F,1 3 4 6
+4,Guess Number Game,G,3
+4,Search for a Range,L,3
+4,Convert BST to Greater Tree,A,3
+4,Inorder Successor in Binary Search Tree,F,3 4
+4,Binary Tree Flipping,L,1 3
+4,Binary Tree Leaves Order Traversal,L,3
+4,Binary Tree Vertical Order Traversal,G F,3 4
+5,Surrounded Regions,A G F,2 3 4
+5,Nearest Exit,G F,2 3 4
+5,Letter Combinations of a Phone Number,A G F,2 3 5
+5,Factorization,L,2 3 5
+5,Add Operators,G F,2 3 4 5
+5,Word Squares,G,2 3 4 5
+6,Search a 2D Matrix II,A G,4 6
+6,Rotate Image,A,5
+6,Sparse Matrix Multiplication,L F,3 4
+6,"Pow(x, n)",L G F,3 5
+6,Max Points On a Line,L,3 5

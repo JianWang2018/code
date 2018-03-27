@@ -25,6 +25,7 @@ public class Solution {
         int n = A.length();
         int m = B.length();
         int[][] f = new int[n + 1][m + 1];
+        // this is the test
 
         // initialize: f[i][j] is 0 by default
 

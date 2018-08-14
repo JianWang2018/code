@@ -1,0 +1,945 @@
+1) Quick Sort
+/* low  --> Starting index,  high  --> Ending index */
+quickSort(arr[], low, high)
+{
+    if (low < high)
+    {
+        /* pi is partitioning index, arr[p] is now
+           at right place */
+        pi = partition(arr, low, high);
+
+        quickSort(arr, low, pi - 1);  // Before pi
+        quickSort(arr, pi + 1, high); // After pi
+    }
+}
+Pseudo code for partition()
+
+/* This function takes last element as pivot, places
+   the pivot element at its correct position in sorted
+    array, and places all smaller (smaller than pivot)
+   to left of pivot and all greater elements to right
+   of pivot */
+partition (arr[], low, high)
+{
+    // pivot (Element to be placed at right position)
+    pivot = arr[high];  
+ 
+    i = (low - 1)  // Index of smaller element
+
+    for (j = low; j <= high- 1; j++)
+    {
+        // If current element is smaller than or
+        // equal to pivot
+        if (arr[j] <= pivot)
+        {
+            i++;    // increment index of smaller element
+            swap arr[i] and arr[j]
+        }
+    }
+    swap arr[i + 1] and arr[high])
+    return (i + 1)
+}
+
+average complextiy: https://www.zhihu.com/question/22393997
+
+
+2) 3 sum question.
+public List<List<Integer>> threeSum(int[] num) {
+    Arrays.sort(num);
+    List<List<Integer>> res = new LinkedList<>(); 
+    for (int i = 0; i < num.length-2; i++) {
+        if (i == 0 || (i > 0 && num[i] != num[i-1])) {
+            int lo = i+1, hi = num.length-1, sum = 0 - num[i];
+            while (lo < hi) {
+                if (num[lo] + num[hi] == sum) {
+                    res.add(Arrays.asList(num[i], num[lo], num[hi]));
+                    while (lo < hi && num[lo] == num[lo+1]) lo++;
+                    while (lo < hi && num[hi] == num[hi-1]) hi--;
+                    lo++; hi--;
+                } else if (num[lo] + num[hi] < sum) lo++;
+                else hi--;
+           }
+        }
+    }
+    return res;
+}
+
+3) Roll two dice for infinite times, what is the prob that you get a sum of 4 before a sum of 2?  
+
+75% but here's why
+
+Lets, do 1-sum(chance we get a 2 before a 4 sum).
+
+1/36 chance to get sum of 2
+3/36 chance to get sum of 4
+32/36 chance we don't get a sum of 4, or 2
+
+First role we get a sum of 2: 1/36 probabilityHow do you find an outlier in a dataset?
+2nd role we get a sum of 2 : (32/36)*(1/3)
+...
+nth role we get a sum of 2: (32/36)^(n-1)*(1/3)
+
+So, final answer is 1-[1/36 * sum 0 to infinity (32/36)^n] = 1-.25 = .75
+
+4) Comparing e to the power of pi and pi to the power of e which one is bigger.  
+
+5) write a program output all prime numbers below N  
+
+6) How do you find an outlier in a dataset?
+
+IQR = third quartile - first quartile.
+outlier &gt; third quartile + 1.5 * IQR
+and
+outlier &lt; first quartile - 1.5 * IQR
+
+7) Interview 1, Q1: Find the eigenvalues and eigenvectors in a 3x3 matrix. 
+
+8) Explain how you would find the mean value in an array. What is the time complexity of a sort function, and explain why.  
+here is a single pass algorithm for finding the mean. Let m_n be the mean of the first n values, the mean considering the (n+1)th value is m_(n+1)=(n*m_n +x_(n+1))/(n+1). This follows from the fact that n*m_n is the sum of all values up to x_n, so we just need to add the next value and divide by n+1.
+
+9) If a person wanted to write a ransom note by cutting letters out of a magazine, how would you decide whether or not the magazine had the letters necessary? Explain in terms of computer algorithms.
+
+ Read in ransom note. Store each word in hash map with associated counter value, and increase counter value for each instance of the word. Read magazine in word by word. If word exists in hash map, decrease counter value. If, at the end of parsing the magazine, any counters &gt; 0 in the hash map, then there are not enough words.
+ 
+10) What is the probability of NO collisions given a particular size hash map
+ This is the same as the 'birthday' problem. Imagine a hashmap with M bins. If 1 bin is already full, the odds of the next entry NOT causing collision are (1-1/M). Then if 2 bins are already full, the odds of the next entry NOT causing collisions are (1-2/M). Given n entries, we get P=(1-1/M)*(1-2/M)*(1-3/M)...(1-(n-1)/M). (Conversely, if we wanted to know the probability of collision, we could do 1-P).
+ 
+11)  Explain the central limit theorem
+
+12) What makes Gaussian distributions 'special?' How are they different than other distributions, such as a Poisson distribution?  
+
+
+ 13) If the odds of a company defaulting are 10% for the first 6 mo, and 10% for the second 6 mo, what are the odds of them defaulting over 1 year? Birthday problem: 
+
+1-(1-0.1)*(1-0.1)
+
+ 14) What are the odds of two people having the same birthday in a room?  
+
+15) Given an array with integers, all integers appear once except one appears twice. How do you find that integer in the fastest way? Complexity?  
+use hash table 
+
+16) What is a virtual constructor in C++?  
+To create a copy of an object or a new object without knowing its concrete type.
+
+The effect of a virtual constructor by a create() member function for creation and a clone() member function for copy construction as shown below
+class Employee 
+{
+  public:
+    virtual ~Employee () {}                 // Native support for polymorphic destruction.
+    virtual Employee * create () const = 0; // Virtual constructor (creation) 
+    virtual Employee * clone () const = 0;  // Virtual constructor (copying) 
+};
+class Manager : public Employee     // "is-a" relationship
+{
+  public:
+    Manager ();                     // Default constructor
+    Manager (Manager const &);      // Copy constructor
+    virtual ~Manager () {}                  // Destructor
+    Manager * create () const       // Virtual constructor (creation) 
+    {
+      return new Manager();
+    }
+    Manager * clone () const        // Virtual constructor (copying) 
+    {
+      return new Manager (*this);
+    }
+};
+class Programmer : public Employee { /* Very similar to the Manager class */ };
+Employee * duplicate (Employee const & e)
+{
+   return e.clone();  // Using virtual constructor idiom.
+}
+
+
+17) You call the home of a family w/ two children and a kid  "billy" answers the phone. What is the probability that both children are boys
+
+Basic Bayesian question Pr(#boys = 2) = (1 / 3)
+
+18) If I give you an array of integers, L, and another integer, s, can you write a program to find out whether there exists a *pair* of integers in L which sum up to s. What's the time complexity of this program? Can you find a faster version?
+
+Example: L = [8,4,7,1,4], s = 11. In this case, the program should return true since 7 + 4 = 11.   …  href="/Interview/If-I-give-you-an-array-of-integers-L-and-another-integer-s-can-you-write-a-program-to-find-out-whether-there-exists-a-QTN_2265277.htm" class="questionResponse">1 Answer
+
+19) If you toss an unbiased coin, what is the expected number of tosses you will make before you toss three tails?  
+We note X the number of tosses to get to 3 tails(successes), so X follows a negative binomial distribution. and the expectation of a negative binomial random variable E[X] := r/p, where r is the number of tails(successes), and p is the probability to get a tail(success) which here is 1/2. So the expected number of tosses E[X] = 3/(1/2) = 6
+
+20) n people standing in a row with all of them having different heights. Expected position of the tallest guy.  
+
+The tallest person can either be in the first position, the second position and so on till the nth position.
+
+The sample space is Ω={1,2,3,4,…n}
+
+Each of these outcomes have equal probability, that is 1/n.
+
+Therefore, the expected value is
+
+1/n+2/n+3/n+⋯+n/n
+
+This sum evaluates to (n+1)/2.
+
+*21) You have 10 mice and 1000 bottles of wine. You also have 24 hours before a party, and one of the bottles has been tainted with a slow acting poison, which takes 24 hours to kill a mouse. In the 24 hours you have remaining, how many bottles can you guarantee safe for human consumption (assume humans and mice react identically)? Assume the lethal dosage is insignificant relative to the size of the bottle.  
+
+The answer is 1023.
+You need to think in bit-wise way. 1023 can be represented in binary as (1111111111). Your goal should be: representing each wine label (i-th number) to each binary representation. 1000th wine will be represented with 1111101000 meaning (1,2,3,4,5,7th) mices will be used to check the toxicity of this wine.
+In binary way, you can assign label to up to 1023 wines.
+So by analysing the rats that die after 24 hrs, you can actually identify which wine is toxic or not. hope this helps.
+
+*22) 100 sided die question was difficult
+
+23)  What is the expected number of tosses required to achieve 2 heads in an unbiased coin?  
+Expected number of steps required to obtain N consecutive heads by tossing a fair coin is given by
+                           En = 2^(n+1) -2
+For n = 2 ; E2 = 6
+For further details see - http://www.qbyte.org/puzzles/p082s.html
+24) How do you create an event with a probability of 1/3 using an unbiased coin?  
+
+25) Consider a random walk on a discrete grid of 11 points (0 through 10). Supposed you have equal probabilty of stepping up or down. If you reach either 10 or 0 you must stop. If you start at point 6, what is the probability that you arrive at 10 before you arrive at 0?  
+
+The quickest way to solve this problem is to realize that this random walk is a martingale. Therefor, its conditional expectation value is equal to its initial value. Over a long enough time period you will arrive at either 10 or 0 (ergodic hypothesis). Let p be the probability of arriving at 10 before 0. Then 6 = 10*p + 0*(1-p). Or p = 6/10.
+
+26) Assume that you have an NxN Matrix, filled with decreasing  numbers if you go from left to right and from top to bottom. Can you design an efficient search algorithm on this matrix. Hint: the most efficient one should have a Log(N) complexity...
+
+
+*27) a, b, c are integers. Such that a^2 + 2bc = 1; b^2 + 2ac=2012, find all the possibles values of c^2 + 2ab.  
+use prime 
+link:http://www.esuppa.it/ProblemiRisolti/J217.pdf
+
+*28) Given a round table, randomly place three legs under the table, what is probability that the table will fall? 
+
+
+I had trouble understanding this.. but let's give it a shot.
+we can generalise this by looking at N points.
+
+First, we can select one point as a reference point where it lies on the 0 degree such that the points above this horizontal line will lie in upper hemisphere, while the others lie in the lower hemisphere. For these 'reference point,' we can choose from total N points.
+
+Given that one point has been chosen, then the probability that the next point lies in upper/lower hemisphere = (0.5)
+
+So, the answer is: N / 2^{N - 1}.
+If you plug in N = 1, N = 2, it gives 1. (which is intuitively correct)
+if you also plug in N = 3 for this case, we get 3 / 4
+
+29) What does a distribution with a maximal variance look like  which is only defined between 0 and 1? Give the proof.
+
+You'd want the values to be at either 0 or 1, since anything in between just brings them closer to the mean (not fully rigorous, but should be obvious enough). let p be the density at 0, so (1-p) is the density at 1. Then mean = (1-p). Variance is: p*(1-p)^2+(1-p)*p^2 = p-2p^2+p^3+p^2-p^3 = p-p^2
+
+We want to maximize variance, to take the first derivative and set it to 0:
+1-2p = 0
+p=1/2
+
+Hence, half the density is at 0, half at 1.
+
+There may be a more elegant argument. 
+
+30) How do you write a function that takes the square root of a number without using any built-in exponential function?  
+
+newton 
+
+
+31) what is PCA? what is first component for the data set <0,1> <1,2> <-1,0>?  
+
+32) Write a function to find the first n prime numbers  
+Scanner scan = new Scanner(System.in);
+    int N =Integer.parseInt( scan.nextLine());
+    int count=0;
+    int num=2;
+    while(count!=N)// while count!= number of prime numbers entered keep searching.. 
+    {
+        boolean prime=true;// to determine whether the number is prime or not
+        for (int i=2;i<=Math.sqrt(num);i++)//efficiency matters
+        {
+            if (num%i==0)
+            {
+                prime=false;// if number divides any other number its not a prime so set prime to false and break the loop.
+                break;
+            }
+
+    }
+        if (prime)
+        {
+            count++;
+            System.out.println(num);
+        }
+        num++; see if next number is prime or not.
+
+    }
+
+33) Prove e^π > π^e   
+
+34) Why are options' Greeks important?  
+
+35) Expected value of fair dice, winning strategy for rolling second die as an option, and then expected value of rolling infinitely if 4/5/6, but stopping for 1/2/3  
+
+36) Why do we square errors instead of just getting absolute values in linear regression?  
+https://www.benkuhn.net/squared
+mean and median 
+
+37) Complexity of quicksort + deriving quickselect from quicksort.  
+best : O(nlogn ) worst O(n^2)
+
+/* low  --> Starting index,  high  --> Ending index */
+quickSort(arr[], low, high)
+{
+    if (low < high)
+    {
+        /* pi is partitioning index, arr[p] is now
+           at right place */
+        pi = partition(arr, low, high);
+
+        quickSort(arr, low, pi - 1);  // Before pi
+        quickSort(arr, pi + 1, high); // After pi
+    }
+}
+/* This function takes last element as pivot, places
+   the pivot element at its correct position in sorted
+    array, and places all smaller (smaller than pivot)
+   to left of pivot and all greater elements to right
+   of pivot */
+partition (arr[], low, high)
+{
+    // pivot (Element to be placed at right position)
+    pivot = arr[high];  
+ 
+    i = (low - 1)  // Index of smaller element
+
+    for (j = low; j <= high- 1; j++)
+    {
+        // If current element is smaller than or
+        // equal to pivot
+        if (arr[j] <= pivot)
+        {
+            i++;    // increment index of smaller element
+            swap arr[i] and arr[j]
+        }
+    }
+    swap arr[i + 1] and arr[high])
+    return (i + 1)
+}
+
+*38) the expected number of coin flips to get two heads in a row AND its variance; 
+what is the variance ?
+https://math.stackexchange.com/questions/770235/variance-of-the-number-of-coin-toss-to-get-n-heads-in-row
+
+
+39) find the subarrays and their permutations of an array 
+
+ public List<List<Integer>> permute(int[] nums) {
+   List<List<Integer>> list = new ArrayList<>();
+   // Arrays.sort(nums); // not necessary
+   backtrack(list, new ArrayList<>(), nums);
+   return list;
+}
+
+private void backtrack(List<List<Integer>> list, List<Integer> tempList, int [] nums){
+   if(tempList.size() == nums.length){
+      list.add(new ArrayList<>(tempList));
+   } else{
+      for(int i = 0; i < nums.length; i++){ 
+         if(tempList.contains(nums[i])) continue; // element already exists, skip
+         tempList.add(nums[i]);
+         backtrack(list, tempList, nums);
+         tempList.remove(tempList.size() - 1);
+      }
+   }
+} 
+
+
+40) How would you code a calculation for factorial?  
+public static void main(String[] args) {
+    int num;
+    int fact=1;
+    Scanner input = new Scanner(System.in);
+    System.out.println("Enter a number: ");
+    num = input.nextInt();
+    for (int i=2;i<=num; i++){
+        fact=fact*i;
+    }
+
+    System.out.println("Factorial: "+fact);
+}
+
+*41)Classical Brainteaser,2 eggs though from a 100 floor building,worst case scenario;  3 eggs? 
+
+https://sankalpiitr.wordpress.com/2012/03/02/the-2-eggs-problem-extended-to-3-eggs/
+
+42)1 die, throw once,pay you the money as the die shows, expected value; expected value if give the 2rd opportunity.  
+
+*43) You are random walking a bridge of length 100. Each time you toss a fair coin, you go one step( one meter) ahead if it's head and one step backward if it's a tail. What's the prob to get to the 100 before get to 0?  
+
+1/200?
+
+
+44)write a program that returns the second largest element in an array (as efficient as possible)  
+key: first second , insert
+1) Initialize two variables first and second to INT_MIN as,
+   first = second = INT_MIN
+2) Start traversing the array,
+   a) If the current element in array say arr[i] is greater
+      than first. Then update first and second as,
+      second = first
+      first = arr[i]
+   b) If the current element is in between first and second,
+      then update second to store the value of current variable as
+      second = arr[i]
+3) Return the value stored in second.
+class GFG {
+     
+    /* Function to print the second largest
+    elements */
+    public static void print2largest(int arr[], 
+                                     int arr_size)
+    {
+        int i, first, second;
+      
+        /* There should be atleast two elements */
+        if (arr_size < 2)
+        {
+            System.out.print(" Invalid Input ");
+            return;
+        }
+      
+        first = second = Integer.MIN_VALUE;
+        for (i = 0; i < arr_size ; i++)
+        {
+            /* If current element is smaller than 
+            first then update both first and second */
+            if (arr[i] > first)
+            {
+                second = first;
+                first = arr[i];
+            }
+      
+            /* If arr[i] is in between first and 
+               second then update second  */
+            else if (arr[i] > second && arr[i] != first)
+                second = arr[i];
+        }
+         
+        if (second == Integer.MIN_VALUE)
+             System.out.print("There is no second largest"+
+                                 " element\n");
+        else
+             System.out.print("The second largest element"+
+                                      " is "+ second);
+    }
+
+45) the difference between t and normal distribution
+
+46 ) the usage of F distribution
+
+The main use of F-distribution is to test whether two independent samples have been drawn for the normal populations with the same variance, or if two independent estimates of the population variance are homogeneous or not, since it is often desirable to compare two variances rather than two averages. For instance, college administrators would prefer two college professors grading exams to have the same variation in their grading. For this, the F-test can be used, and after examining the p-value, inference can be drawn on the variation.
+47) the usage of kai-square distribution
+
+48) put call parity
+
+ 
+49) how to detect a loop in a list without recording the nodes you have been visited
+
+*50) They asked to implement a program that finds a sub array with the highest sum among an array of integers.  
+all the positive number ?
+
+51 ) A rope with total length 1 breaks into 3 parts. The probability of forming a triangle.  
+
+52) Calculate the expected times of rolling two dices to obtain two successive 3.
+ 42= 36 + 6
+ 
+ 
+53)Suppose you are blindfolded and there are 50 individual ropes lying on the table in front of you. You must pick up two rope ends at a time (not necessarily from the same rope), and tie them together while blindfolded; eventually you will end up with only rope loops on the table. What is the expected number of loops?  
+
+It's a recurrence relation: E(n)=(2n-2)/(2n-1)*E(n-1)+1/(2n-1)*(1+E(n-1)). This is because if you have n separate ropes on the table and you pick up one rope end, then there's a 1/(2n-1) chance that you the next end you pick up is the other end of that same rope. If you do, then you form one loop and the expected value is 1+E(n-1) because there are n-1 separate ropes left on the table. On the other hand, there's a (2n-2)/(2n-1) chance that the next rope end you pick up is the end of a different rope, in which case tying them together would result in an expected value of E(n-1) because there are now n-1 separate ropes left on the table.
+
+Simplifying the recurrence relation yields: E(n)=E(n-1)+1/(2n-1).
+
+54 ) I was asked time complexity of algorithms designed to search and matrix multiplication  
+
+The naive algorithm, which is what you've got once you correct it as noted in comments, is O(n^3).
+
+*55) If one commuter train comes every 15 minutes and another comes every 40 minutes, what is the average amount of time one would have to wait before getting on a train? 
+
+6.56
+
+https://math.stackexchange.com/questions/1557579/train-wait-problem-probability
+
+56) abstract class 
+An abstract class is a class that is designed to be specifically used as a base class. An abstract class contains at least one pure virtual function. You declare a pure virtual function by using a pure specifier (= 0) in the declaration of a virtual member function in the class declaration.
+
+
+*57) You are doing an experiment to observe a binary signal (think of a light being on or off). You can't view the signal directly, but through two instruments. The instruments have error rates a and b, respectively. The error rates are independent. What is the probability the are both correct? give matching signals? give matching, but incorrect signals?  
+
+*58)kalman filter in stochastic calculus 
+
+59) Throw a fair coin as many times as you need, compare the probability of getting the sequence HHT with the probability of getting the sequence HTH. Which is higher?  
+
+
+HHT. Why? It depend how far back you need to go when the last toss turned out not being what you want. (I'm trying not to use Markov chain here.)
+HHT: If you got HHH, you are still satisfying 2/3 of the condition.
+HTH: If you got HTT, you need to start from the beginning.
+More rigorous answer can be found be using Markov chain.
+
+
+60) X is N(0, 1). What is E(X), E(X^2), E(X^3), questions on correlation/covariance  
+
+61) There is a set of n - 1 numbers from the range 1 to n, determine the smallest number that doesn't exist in the set. Write a program to output all permutations of numbers 1 to N.
+
+If all number are distinct than it is easy: just sum up 1:n and subtract sum of your numbers. If they are not distinct sort both arrays and subtract first n-1 elements from each other. The first non-zero will give the index of the missing number.
+Permutations is more or less standard, there are many algorithms available.
+
+
+Use bucket sort,maintain a array of all zeros and size N put 1 for every number processed in the corresponding index and again go through the arrayto get the first index with a zero entry in the array.
+
+
+62) Suppose we hire you, and you and the rest of the new  interns decide to go buy a cup of coffee. Each intern purchases one cup of coffee. One of the interns suggests everyone play a game. Everyone will flip a fair coin, dividing the group of interns into two subgroups: those that got heads and those that got tails. The game is this: whichever group is smaller evenly splits the cost of everyone's cup of coffee (i.e. if there are 5 interns, 3 get H, 2 get T, then the two interns that got tails each buy 2.5 cups of coffee). However, nothing says you need to play this game. You can choose to buy your own cup of coffee and not play the game at all. The question: Should you play this game? (Note: You may assume that there is an odd number of interns, so there are no ties, and that if everyone gets H or everyone gets T, then everyone loses and just buys their own cup of coffee).
+
+＊63) You have a stick of length 1, and you break it at a (uniformly) random position along its length. Take the longer of the two resulting sticks, and break it somewhere randomly along its length. What is the probability that you can make a triangle out of the three pieces?  
+
+https://www.glassdoor.com/Interview/You-have-a-stick-of-length-1-and-you-break-it-at-a-uniformly-random-position-along-its-length-Take-the-longer-of-the-tw-QTN_271302.htm
+
+Condition to make a triangle: with c being the longest side, a + b &gt;= c. Say that the first cut yields the "short stick" of length x. Then the second cut yields a "longer stick" of length z. Derive the condition that z &lt; 1/2 for a triangle to be formed, using symmetry arguments and the initial inequality. Derive that means that you can make a second cut somewhere in length x, along the stick that has length (1-x). The probability of making such a cut is x/(1-x). Integrate for all possible x's, which is 0 to 0.5 because of symmetry of the initial break. Therefore the answer is integral from 0 to 0.5 of x*dx/(1-x).
+
+Took me about 20 minutes to get to the answer because I barked up some wrong trees. Apparently that wasn't fast enough for the interviewer, which I can appreciate---it is Goldman, after all.
+
+*64) You have 4 cards, 2 black and 2 red. You play a game where during each round you draw a card. If it's black, you lose a point. If it's red, you gain a point. You can chose to stop at any time. What's the expected value of this game?  
+ 2/3 
+
+
+*65) If two random variables have a uniform probability distribution between 0 and 1, what is the probability that their product is less than 0.5?  
+1/2 ln 2 - 1/2
+
+*66) Let's generate u1,u2.. from a uniforme distribution in [0,1]. What is the average stopping time T for the sum (u1+..+uT) to be greater than 1 ?  
+
+note: P(s_n<1) belongs to P(s_{n-1}<1 ) 
+e 
+https://math.stackexchange.com/questions/214399/summing-0-1-uniform-random-variables-up-to-1
+
+
+66) 1.Name the OLS model assumptions.  
+green book p 53
+https://www.albert.io/blog/key-assumptions-of-ols-econometrics-review/
+A1. The linear regression model is “linear in parameters.”
+
+A2. There is a random sampling of observations.
+
+A3. The conditional mean should be zero.
+
+A4. There is no multi-collinearity (or perfect collinearity).
+
+A5. Spherical errors: There is homoscedasticity and no autocorrelation
+
+A6: Optional Assumption: Error terms should be normally distributed.
+
+67) three markets drivers: 
+social drivers: population, youth, sustainability, altrism, independent lifestyle
+technology driver: social networking, mobile technology, payment system
+economic drivers: incresed population, strained resources, economic disoarity, idle inventorym inaccessible luxuries, vc funding.
+
+68) clock angle
+
+
+69)What is the number of coins you need to flip simultaneously to have at least a 90% chance of getting at least one head?  
+
+1 - 0.5^n > 0.9 ; n <0.1; n ;= 3.32
+
+70) Person A flips a coin. If he lands heads, he wins. If he lands tails, player B flips the coin. If player B lands heads, he wins. If he lands tails, player A goes again, until somebody lands heads. What is the probability that player A will win this game?  
+
+2/3
+
+71)There is a game where you roll a die. You win money for whatever you roll ($1 if you roll a 1, $2 if you roll a 2, etc). If you are unhappy with your first roll, you are able to roll the die a second time. If you roll the die a second time, only your second roll determines the payout. What is a fair price to charge to play this game?  
+
+$4.25.
+You must determine expected value of the game. Expected value of a die is 3.5. If you roll a 1/2/3 you will roll the die a second time, giving you an expected value of 3.5 again. If you roll a 4/5/6 you will keep your current roll. (3.5*0.5)+(4*1/6)+(5*1/6)+(6*1/6)=4.25
+
+72)One question I remember from the Superday was the St. Petersburg paradox.  
+
+https://en.wikipedia.org/wiki/St._Petersburg_paradox
+
+The St. Petersburg paradox or St. Petersburg lottery[1] is a paradox related to probability and decision theory in economics. It is based on a particular (theoretical) lottery game that leads to a random variable with infinite expected value (i.e., infinite expected payoff) but nevertheless seems to be worth only a very small amount to the participants. The St. Petersburg paradox is a situation where a naive decision criterion which takes only the expected value into account predicts a course of action that presumably no actual person would be willing to take. Several resolutions are possible.
+
+73) what algorithm could you propose fro sorting positive or negative integers from a set?  
+
+74) Optimization problems using lagrange optimizer.
+
+75) Statistics problems: binomial distribution and law of large number.  
+In probability theory and statistics, the binomial distribution with parameters n and p is the discrete probability distribution of the number of successes in a sequence of n independent experiments, each asking a yes–no question, and each with its own boolean-valued outcome: a random variable containing single bit of information: success/yes/true/one (with probability p) or failure/no/false/zero (with probability q = 1 − p). 
+
+In probability theory, the law of large numbers (LLN) is a theorem that describes the result of performing the same experiment a large number of times. According to the law, the average of the results obtained from a large number of trials should be close to the expected value, and will tend to become closer as more trials are performed.
+
+
+75) what is the difference between structure and class in C++  
+https://www.geeksforgeeks.org/g-fact-76/
+
+In C++, a structure is same as class except the following differences:
+
+1) Members of a class are private by default and members of struct are public by default.
+For example program 1 fails in compilation and program 2 works fine.
+
+2) When deriving a struct from a class/struct, default access-specifier for a base class/struct is public. And when deriving a class, default access specifier is private.
+For example program 3 fails in compilation and program 4 works fine.
+
+76) There are 3 boxes. Each box includes 2 balls. The first one  includes 2 black ball, the second one includes one black and one white and the last one includes 2 white balls. Pick 2 balls from one box. The first one is white. Then, what's the probability that the second one is also be a white?
+
+2/3
+
+*77) A dice is rolled twice, what is the probability that on the  second chance it would be 6.
+
+78) What is the different between void pointer and Null pointer. 
+
+Null pointer is a special reserved value of a pointer. A pointer of any type has such a reserved value. Formally, each specific pointer type (int *, char * etc.) has its own dedicated null-pointer value. Conceptually, when a pointer has that null value it is not pointing anywhere.
+
+Void pointer is a specific pointer type - void * - a pointer that points to some data location in storage, which doesn't have any specific type.
+
+So, once again, null pointer is a value, while void pointer is a type. These concepts are totally different and non-comparable. That essentially means that your question, as stated, is not exactly valid. It is like asking, for example, "What is the difference between a triangle and a car?".
+
+*79)  Assume you and a professor plan to meet from 10:00 to 10:50, you will at most wait for 15 mins and the professor will at most wait for 10 mins. What's the time window when you can meet the professor with highest possibility.  
+
+80) deep copy and shallow coppy and copy assignment 
+
+Normal assignment operations will simply point the new variable towards the existing object. The docs explain the difference between shallow and deep copies:
+
+The difference between shallow and deep copying is only relevant for compound objects (objects that contain other objects, like lists or class instances):
+
+A shallow copy constructs a new compound object and then (to the extent possible) inserts references into it to the objects found in the original.
+A deep copy constructs a new compound object and then, recursively, inserts copies into it of the objects found in the original.
+Here's a little demonstration:
+
+import copy
+
+a = [1, 2, 3]
+b = [4, 5, 6]
+c = [a, b]
+Using normal assignment operatings to copy:
+
+d = c
+
+print id(c) == id(d)          # True - d is the same object as c
+print id(c[0]) == id(d[0])    # True - d[0] is the same object as c[0]
+Using a shallow copy:
+
+d = copy.copy(c)
+
+print id(c) == id(d)          # False - d is now a new object
+print id(c[0]) == id(d[0])    # True - d[0] is the same object as c[0]
+Using a deep copy:
+
+d = copy.deepcopy(c)
+
+print id(c) == id(d)          # False - d is now a new object
+print id(c[0]) == id(d[0])    # False - d[0] is now a new objectv
+
+81) differences between queue and stack
+https://techwelkin.com/differences-between-stack-and-queue
+
+#	STACK	QUEUE
+1	Objects are inserted and removed at the same end.	Objects are inserted and removed from different ends.
+2	In stacks only one pointer is used. It points to the top of the stack.	In queues, two different pointers are used for front and rear ends.
+3	In stacks, the last inserted object is first to come out.	In queues, the object inserted first is first deleted.
+4	Stacks follow Last In First Out (LIFO) order.	Queues following First In First Out (FIFO) order.
+5	Stack operations are called push and pop.	Queue operations are called enqueue and dequeue.
+6	Stacks are visualized as vertical collections.	Queues are visualized as horizontal collections.
+7	Collection of dinner plates at a wedding reception is an example of stack.	People standing in a file to board a bus is an example of queue.
+
+82) What are type 1 error and type 2 error? what is p-value  
+
+In statistical hypothesis testing, a type I error is the incorrect rejection of a true null hypothesis (also known as a "false positive" finding), while a type II error is incorrectly retaining a false null hypothesis (also known as a "false negative" finding). More simply stated, a type I error is to falsely infer the existence of something that is not there, while a type II error is to falsely infer the absence of something that is.
+
+In statistical hypothesis testing, the p-value or probability value or asymptotic significance is the probability for a given statistical model that, when the null hypothesis is true, the statistical summary (such as the sample mean difference between two compared groups) would be the same as or of greater magnitude than the actual observed results.
+
+83)how many combinations that have at least one five from zero to 1000  
+
+xyz
+x=5, y(0..9) z(0..9) =&gt; 10x10 = 100
+y=5 x(0..4,6..9) z(0..9) =&gt; 9x10 = 90
+z=5 x(0..4,6..9) y(0..4,6..9) =&gt; 9x9 =81
+
+100+90+81 = 271
+
+typo...10^3-9^3
+84) empty class size
+Not zero.
+Compiler specific.
+Usually char = 1Byte
+
+84) what are the variables involving BS pricing?
+
+1.Time to expiration
+2.Volatility of the underlying
+3.Risk free Rate
+4.Strike Price
+5.Asset current price
+
+85) You have 100 coins on the table. 10 are heads, 90 are tails. You are blindfolded but you can arrange the coins. How can you make 2 piles of coins with the same number of heads?  
+
+Divide the pile into two random piles of 10 coins and 90 coins each, then the first pile has y heads and the second pile has 10-y heads, flip all the coins in the first pile they now have 10-y heads, same as the second pile.
+
+* 86) If I have 4 boxes to play with you, under one which there is $100. Every time you play you have to pay $x .How much should x be so that the game is fair. You can play as many times as you want.
+
+
+87)What is the probability of forming a acute triangle from  three random dots in a circle
+note : it is acute triangle
+
+1/4, three points not in the same semi circle 
+
+88) Explain ROC  
+https://www.medcalc.org/manual/roc-curves.php
+
+89) object in java
+
+Creating an Object
+As mentioned previously, a class provides the blueprints for objects. So basically, an object is created from a class. In Java, the new keyword is used to create new objects.
+
+There are three steps when creating an object from a class −
+
+Declaration − A variable declaration with a variable name with an object type.
+
+Instantiation − The 'new' keyword is used to create the object.
+
+Initialization − The 'new' keyword is followed by a call to a constructor. This call initializes the new object.
+
+Following is an example of creating an object −
+
+Example
+ Live Demo
+public class Puppy {
+   public Puppy(String name) {
+      // This constructor has one parameter, name.
+      System.out.println("Passed Name is :" + name );
+   }
+
+   public static void main(String []args) {
+      // Following statement would create an object myPuppy
+      Puppy myPuppy = new Puppy( "tommy" );
+   }
+}
+
+
+90) how to simulate random normal number
+green book p185
+
+91) heat equation 
+https://en.wikipedia.org/wiki/Heat_equation
+
+92) wave equation 
+https://en.wikipedia.org/wiki/Wave_equation
+
+93) static in java 
+https://www.javatpoint.com/static-keyword-in-java
+
+94) difference of class, public, protected and private in java 
+https://docs.oracle.com/javase/tutorial/java/javaOO/accesscontrol.html
+
+95) Largest Sum Contiguous Subarray
+import java.io.*;
+// Java program to print largest contiguous array sum
+import java.util.*;
+
+class Kadane
+{
+    public static void main (String[] args)
+    {
+        int [] a = {-2, -3, 4, -1, -2, 1, 5, -3};
+        System.out.println("Maximum contiguous sum is " +
+                                       maxSubArray(a));
+    }
+ 
+    public int maxSubArray(int[] A) {
+        int n = A.length;
+        int[] dp = new int[n];//dp[i] means the maximum subarray ending with A[i];
+        dp[0] = A[0];
+        int max = dp[0];
+        
+        for(int i = 1; i < n; i++){
+            dp[i] = A[i] + (dp[i - 1] > 0 ? dp[i - 1] : 0);
+            max = Math.max(max, dp[i]);
+        }
+        
+        return max;
+}
+}
+
+96) how to realize a stack by priority queue or heap
+
+In priority queue, we assign priority to the elements that are being pushed. A stack requires elements to be processed in Last in First Out manner. The idea is to associate a count that determines when it was pushed. This count works as a key for the priority queue.
+
+So the implementation of stack uses a priority queue of pairs, with the first element serving as the key.
+
+https://www.geeksforgeeks.org/implement-stack-using-priority-queue-or-heap/
+
+97) Implement Queue using Stacks
+The problem is opposite of this post. We are given a stack data structure with push and pop operations, the task is to implement a queue using instances of stack data structure and operations on them.
+A queue can be implemented using two stacks. Let queue to be implemented be q and stacks used to implement q be stack1 and stack2. q can be implemented in two ways:
+
+https://www.geeksforgeeks.org/queue-using-stacks/
+
+98) Implement Stacks using queue
+https://www.geeksforgeeks.org/implement-stack-using-queue/
+
+Version A (efficient push):
+
+push:
+enqueue in queue1
+pop:
+while size of queue1 is bigger than 1, pipe dequeued items from queue1 into queue2
+dequeue and return the last item of queue1, then switch the names of queue1 and queue2
+Version B (efficient pop):
+
+push:
+enqueue in queue2
+enqueue all items of queue1 in queue2, then switch the names of queue1 and queue2
+pop:
+deqeue from queue1
+
+99) Expected Value of Local Maxima and Local Minima
+
+link: https://math.stackexchange.com/questions/680660/expected-value-of-local-maxima-and-local-minima
+
+100 ) find kth largest number in an unsorted array 
+link : https://www.geeksforgeeks.org/kth-smallestlargest-element-unsorted-array/
+
+101) what algorithm could you propose for sorting positive or negative integers from a set?   
+quick sort and pivot, o(n) time and o(1) space
+
+102) empty class size
+
+The standard does not allow objects (and classes thereof) of size 0, since that would make it possible for two distinct objects to have the same memory address. That's why even empty classes must have a size of (at least) 1.
+
+103) Derive "uv" integral rule from any differentiation identity you remember. You can use only "basic" identities and no "advanced" calculus in your derivation.   
+
+
+Not sure, but...
+
+Let u and v be functions of x. Start with product rule of differentiation:
+
+d(u*v)/dx= u*(dv/dx) + v*(du/dx)
+
+Multiply both sides by dx:
+
+d(u*v) = u*dv + v*du
+
+Integrate:
+
+u*v = integral(u*dv) + integral(v*du)
+
+Rearrange to get formula for integration by parts:
+
+integral(u*dv) = u*v - integral(v*du)
+
+104)  What is the probability of forming a acute triangle from three random dots in a circle   
+1/4 
+
+same as the points forms a circle problem 
+
+
+105) Is there any other way in option pricing method?
+
+https://www.linkedin.com/pulse/option-pricing-black-scholes-v-binomial-monte-carlo-stringham/
+
+I love financial options. I love to trade options and I love valuing options because they’re different and present some unique challenges in figuring out their worth. They’ve gotten a little bit of a bad rap in the news because they can be risky. But if used correctly, they can actually present less risk than owning the stock itself. And because of the use of leverage, the returns can be greater as well.
+
+I’ve been working on a couple option valuations lately, and maybe this shows how big of a nerd I am, but I find them very interesting. Anyone that’s ever dealt with options has heard of the Black-Scholes model of valuing options. But did you know there are other, more-flexible methods for valuing options? Below is a summary of a couple of the different option valuation methods, along with their strengths and weaknesses.
+
+Black-Scholes
+
+The Black-Scholes model is the most popular method for valuing options and can be quite accurate. It relies on fixed inputs (current stock price, strike price, time until expiration, volatility, risk free rates, and dividend yield). The good thing is, you don’t have to be a math whiz, just find the right inputs and use a good online calculator (here’s a decent one). For most regular options, using a Black-Scholes model is good enough. The downside to the Black-Scholes model is that it’s a black box calculator and it doesn’t offer the flexibility required to value options with non-standard features, such as a price reset feature or a mandatory exercise requirement.
+
+Binomial models
+
+In contrast to the Black Scholes model, a binomial model breaks down the time to expiration into a number of time intervals, or steps. At each step, the model predicts two possible moves for the stock price, (one up and one down) by an amount calculated using volatility and time to expiration. This produces a binomial distribution of underlying stock prices. The model produced is a theoretical representation of all the possible paths that the stock price could take during the life of the option.
+
+At the end of the model -- i.e. at expiration of the option -- all the terminal option prices for each of the final possible stock prices are known as they simply equal their intrinsic values.
+
+Next the option prices at each step of the model are calculated working back from expiration to the present. The option prices at each step are used to derive the option prices at the next step of the model. Any adjustments to stock prices (at an ex-dividend date) or option prices (as a result of early exercise of American options) are worked into the calculations at the required point in time. As you work your way back to the present, you are left with one option price.
+
+It should be noted that if no alterations are made and the same inputs as a Black-Scholes model are used, and when using a sufficient number of steps, the results of the binomial model and a Black Scholes model will be identical. However, the binomial model also offers more flexibility because the user can alter the inputs at each step in the process to account for differences in the ability to exercise a particular option that shows non-standard features. The downside is that binomial models are complex to construct and depending on the number of steps used in the model, can be incredibly unwieldy in terms of size of the spreadsheet and computing power needed to run.
+
+Monte Carlo Simulation
+
+Monte Carlo simulation uses computerized modeling to predict outcomes. The model first generates a random number based on a probability distribution. The random number then uses the additional inputs of volatility and time to expiration to generate a stock price. The generated stock price at the time of expiration is then used to calculate the value of the option. The model then calculates results over and over, each time using a different set of random values from the probability functions. Depending upon the model, the number of uncertainties and the probability distributions used, a Monte Carlo simulation could involve thousands or tens of thousands of recalculations before it is complete. For option models, Monte Carlo simulation typically relies on the average of all the calculated results as the option price.
+
+In some ways the Monte Carlo provides the best of both the Black-Scholes and binomial worlds. With the right software, (here’s a good, inexpensive option) you can provide the inputs and let the model do its thing, ultimately spitting out a result (although it takes a little longer than the Black-Scholes calculation). And while it isn’t as unwieldy to use a binomial model, it still provides flexibility in the inputs that can be used.
+
+106) what is the complete market? 
+
+(Complete market). A general multi period market model is called complete,
+if and only if for any contingent claim X there exists a replicating strategy ϕ. A model which is
+not complete is called incomplete
+
+107) expected shortfall advantages and disvantages 
+Advantages of expected shortfall
+
+As Artzner et al (1999) pointed out some time ago, ES has better theoretical properties than VAR. If two portfolios are combined, the total ES usually decreases - reflecting the benefits of diversification – and certainly never increases. By contrast, the total VAR can – and in practice occasionally does – increase. This is discussed in Hull (2006). To use the terminology of Artzner et al, ES is "coherent" because it has certain fundamental properties they consider such a measure should have. In particular, ES never increases as portfolios are diversified. VAR is not coherent because it does not have this particular property.
+
+There is a more pragmatic reason for preferring ES to VAR in risk management. It is tempting for a trader to follow a trading strategy that is nearly always profitable, but occasionally blows up.5 This strategy should be prevented by an ES risk limit, but may be possible when a VAR risk limit is used. Many banks have used ES internally for years, even though VAR is necessary to satisfy regulatory requirements.
+
+Back-testing and accuracy
+
+Expected shortfall has disadvantages as well as advantages, of course. First, it is difficult to back-test. When a one-day 99% VAR model based on the most recent historical data is being back-tested, we can observe the number of exceptions that would have been encountered if the model had been used in the past, and test whether this is significantly different from what is expected. Back-testing a one-day ES model is much more challenging, because we are interested in the average size of the losses when exceptions are observed. A back-testing period of 250 days is usually used by regulators. This can be expected to give about 6 exceptions when a 97.5% confidence limit is used, which is a small sample. However, Acerbi and Szekely (2014) seem to get reasonable results when experimenting with three different tests of ES and standard distributions.
+
+A key point is that back-testing a stressed model, whether VAR or ES, is not possible because we are interested in whether the model performs well for another stressed period, but we do not have another such period to use for testing. The use of varying time horizons in FRTB is an added complication in back-testing.
+
+The Basel Committee has presumably recognised this because the review requires the back-testing of a one-day VAR model calculated in the usual way from recent historical data. We are therefore in the strange position where the risk measure being back-tested is quite different from that used to calculate capital.
+
+Another disadvantage of ES is that estimates of the measure may not be as accurate as estimates of VAR. Yamai and Yoshiba (2002) looked at this. They found that for a certain number of observations and a certain confidence level, the accuracy of VAR and ES is about the same when the loss is normally distributed, but that VAR estimates are more accurate than ES estimates when the losses have fat tails.6 This means capital calculated from ES may be less stable than capital calculated from VAR.
+
+108) difference between option and futures 
+https://www.investopedia.com/ask/answers/05/060505.asp
+
+The main fundamental difference between options and futures lies in the obligations they put on their buyers and sellers. An option gives the buyer the right, but not the obligation to buy (or sell) a certain asset at a specific price at any time during the life of the contract. A futures contract gives the buyer the obligation to purchase a specific asset, and the seller to sell and deliver that asset at a specific future date, unless the holder's position is closed prior to expiration.
+
+Another key difference between options and futures is the size of the underlying position. Generally, the underlying position is much larger for futures contracts, and the obligation to buy or sell this certain amount at a given price makes futures more risky for the inexperienced investor.
+
+109) what is the realized volatility 
+Sometimes referred to as the historical volatility, this term usually used in the context of derivatives. While the implied volatility refers to the market's assessment of future volatility, the realized volatility measures what actually happened in the past. The measurement of the volatility depends on the particular situation. For example, one could calculate the realized volatility for the equity market in March of 2003 by taking the standard deviation of the daily returns within that month. One could look at the realized volatility between 10:00AM and 11:00AM on June 23, 2003 by calculating the standard deviation of one minute returns.
+
+110 what is the implied volatility ?
+
+https://en.wikipedia.org/wiki/Implied_volatility
+
+In financial mathematics, the implied volatility of an option contract is that value of the volatility of the underlying instrument which, when input in an option pricing model (such as Black–Scholes) will return a theoretical value equal to the current market price of the option. A non-option financial instrument that has embedded optionality, such as an interest rate cap, can also have an implied volatility. Implied volatility, a forward-looking and subjective measure, differs from historical volatility because the latter is calculated from known past returns of a security.
+
+111) sum and product of normal distribution 
+sum:https://math.stackexchange.com/questions/101062/is-the-product-of-two-gaussian-random-variables-also-a-gaussian
+product:https://math.stackexchange.com/questions/101062/is-the-product-of-two-gaussian-random-variables-also-a-gaussian
+
+112) name hiding
+http://thesyntacticsugar.blogspot.com/2011/10/behind-scenes-name-hiding-in-c.html
+Name hiding happens when an overloaded member function is declared in the scope of a derived class. Here is an example:
+
+class Base
+{
+public:
+    virtual ~Base() {}
+ 
+    virtual void someFunction() const;
+    virtual void someFunction(int x) const;
+};
+ 
+void Base::someFunction() const {}
+void Base::someFunction(int x) const {}
+ 
+class Derived : public Base
+{
+public:
+    void someFunction() const;
+};
+ 
+void Derived::someFunction() const {}
+ 
+int main(int argc, char **argv)
+{
+    Derived d;
+    d.someFunction(123);         
+ 
+    return 0;
+}
+
+how to make it visible
+That is the way the language is designed - names in inner scopes hide names in outer scopes. Here the derived class acts as an inner scope and the base class as an outer scope.
+
+The fact that the functions would be considered overloads if they were in the same scope, doesn't matter. The hiding works on the names, not on individual functions.
+
+You can override the default, by explicitly adding the name to the derived class:
+
+class Derived : public Base {
+public:
+    using Base::methodA;   // Now it is visible!
+
+    void methodA(int i) { cout << "Derived.methodA(int i)" << endl ;}
+};
+

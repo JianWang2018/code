@@ -1,4 +1,4 @@
-problem:
+//problem:
 Given two rectangles, find if the given two rectangles overlap or not.
 
  Notice
@@ -33,7 +33,7 @@ public class Solution {
     }
 }
 
-chapter 9 :
+//chapter 9 :
 
 public class Solution {
     /**
